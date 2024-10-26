@@ -1,0 +1,51 @@
+---
+const experiences = [
+  {
+    title: "Desarrollador de Software",
+    company: "Xetid",
+    period: "Enero 2022 - Presente",
+    location: "La Habana, Cuba",
+    responsibilities: [
+      "Desarrollo de aplicaciones con C++ utilizando Qt Framework para interfaces gráficas de usuario",
+      "Implementación de metodologías Scrum para la gestión de proyectos",
+      "Participación activa en el ciclo completo de desarrollo de software"
+    ]
+  },
+  {
+    title: "Desarrollador de Software",
+    company: "Xetid",
+    period: "Marzo 2021 - Diciembre 2022",
+    location: "La Habana, Cuba",
+    responsibilities: [
+      "Desarrollo y mantenimiento de aplicaciones con React, Node.js, Express y Ant Design",
+      "Optimización de despliegues mediante contenedores Docker",
+      "Colaboración en la implementación de patrones de diseño MVC"
+    ]
+  }];
+---
+<section id="experience" class="py-20">
+  <div class="max-w-4xl mx-auto px-4">
+    <h2 class="text-3xl font-bold mb-12 text-center"> Experiencia Laboral</h2>
+    <div class="space-y-8">
+      {experiences.map(job => (
+        <div class="bg-white rounded-lg shadow-lg p-6">
+          <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+            <div>
+              <h3 class="text-xl font-semibold text-purple-600">{job.title}</h3>
+              <p class="text-gray-600">{job.company}</p>
+            </div>
+            <div class="text-gray-500 mt-2 md:mt-0">
+              <p>{job.period}</p>
+              <p>{job.location}</p>
+            </div>
+          </div>
+          <ul class="list-disc list-inside space-y-2 text-gray-700">
+            {job.responsibilities.map(item => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

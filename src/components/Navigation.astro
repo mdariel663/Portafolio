@@ -1,0 +1,169 @@
+---
+const navItems = [
+  { href: "#about", label: "Sobre Mí" },
+  { href: "#skills", label: "Habilidades" },
+  { href: "#proyect", label: "Proyectos" },
+  { href: "#contact", label: "Contacto" }
+];
+---
+<meta name="description" content="Portafolio de Mario Dariel Sires Martínez, desarrollador con experiencia en Python, C++, Kotlin, Java, React, Node.js, Express, Typescripts, Docker, Git, Qt, OpenCV. Descubre mis proyectos y habilidades.">
+<meta property="og:title" content="Portafolio de Mario Dariel Sires Martínez">
+<meta property="og:description" content="Descubre mis proyectos y habilidades en desarrollo web y diseño de software.">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/168371923?v=4">
+
+<style>
+  /* Estilo para el fondo de superposición (dimming) del menú */
+  #menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s;
+    z-index: 49; /* Debe estar detrás del menú */
+  }
+
+  /* Estilo para el contenedor de la tarjeta del menú móvil */
+  #mobile-menu-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 70%; /* Ajusta el ancho del menú */
+    max-width: 300px;
+    background-color: white; /* Fondo blanco para el menú */
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3); /* Sombra a la izquierda */
+    transform: translateX(100%); /* Oculto por defecto */
+    transition: transform 0.3s ease;
+    z-index: 50; /* Asegúrate de que esté delante del fondo */
+    padding: 1rem; /* Espacio interior */
+    border-radius: 16px; /* Bordes redondeados */
+  }
+
+  #mobile-menu-container.open {
+    transform: translateX(0); /* Muestra el menú */
+  }
+
+  #menu-overlay.open {
+    opacity: 1;
+    visibility: visible; /* Hace visible el fondo */
+  }
+
+  /* Estilo para la tarjeta que agrupa los enlaces */
+  .card {
+    background-color: #f9f9f9; /* Color de fondo de la tarjeta */
+    border-radius: 16px; /* Bordes redondeados */
+    padding: 1rem; /* Espaciado interior */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+    margin-top: 2rem; /* Espacio superior */
+  }
+
+  /* Estilo para el botón de cerrar */
+  .close-button {
+    align-self: flex-end; /* Alinea el botón a la derecha */
+    background: none;
+    border: none;
+    color: #4a4a4a; /* Color del texto */
+    font-size: 1.5rem;
+    cursor: pointer; /* Cambia el cursor a mano */
+  }
+
+  /* Estilo para los enlaces del menú móvil */
+  .mobile-nav-link {
+    padding: 1rem 1.5rem; /* Espaciado en los enlaces */
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #4a4a4a; /* Color de texto */
+    transition: color 0.3s ease; /* Transición suave */
+    border-radius: 8px; /* Bordes redondeados */
+  }
+
+  .mobile-nav-link:hover {
+    color: #7c3aed; /* Color en hover */
+    background-color: rgba(124, 58, 237, 0.1); /* Fondo en hover */
+  }
+</style>
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm shadow-sm rounded-b-lg">
+  <nav class="max-w-6xl mx-auto px-4" aria-label="Navegación principal">
+    <div class="flex items-center justify-between h-16">
+      <a href="#" aria-label="Ir a la página principal">
+        <img 
+          src="https://avatars.githubusercontent.com/u/168371923?v=4" 
+          alt="Foto de Mario Dariel Sires Martinez"
+          class="w-10 h-10 rounded-full transition-transform duration-300 hover:scale-110"
+        />
+      </a>
+      <div class="md:hidden">
+        <button 
+          id="menu-toggle" 
+          class="focus:outline-none focus:ring-2 focus:ring-purple-600"
+          aria-label="Abrir menú de navegación"
+        >
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 6h14a1 1 0 110 2H3a1 1 0 110-2zm0 5h14a1 1 0 110 2H3a1 1 0 110-2zm0 5h14a1 1 0 110 2H3a1 1 0 110-2z"></path>
+          </svg>
+        </button>
+      </div>
+      <ul id="nav-links" class="hidden md:flex space-x-8">
+        {navItems.map(item => (
+          <li key={item.href}>
+            <a 
+              href={item.href}
+              class="text-gray-600 hover:text-purple-600 transition-colors duration-300 relative hover-underline-animation"
+              aria-label={`Ir a ${item.label}`} 
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Fondo de superposición para el menú -->
+  <div id="menu-overlay"></div>
+
+  <!-- Contenedor de la tarjeta del menú móvil -->
+  <div id="mobile-menu-container" class="flex flex-col">
+    <div class="card">
+      <button class="close-button" aria-label="Cerrar menú" id="close-menu">
+        &times; <!-- Símbolo de cerrar -->
+      </button>
+      <ul id="mobile-menu" class="flex flex-col space-y-4">
+        {navItems.map(item => (
+          <li key={item.href}>
+            <a 
+              href={item.href}
+              class="mobile-nav-link"
+              aria-label={`Ir a ${item.label}`} 
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const menuToggle = document.getElementById("menu-toggle");
+  const mobileMenuContainer = document.getElementById("mobile-menu-container");
+  const menuOverlay = document.getElementById("menu-overlay");
+  const closeMenuButton = document.getElementById("close-menu");
+
+  // Función para abrir y cerrar el menú
+  function toggleMenu() {
+    mobileMenuContainer.classList.toggle("open");
+    menuOverlay.classList.toggle("open");
+  }
+
+  menuToggle.addEventListener("click", toggleMenu);
+  menuOverlay.addEventListener("click", toggleMenu);
+  closeMenuButton.addEventListener("click", toggleMenu); // Cerrar el menú
+</script>
