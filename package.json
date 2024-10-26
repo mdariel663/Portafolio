@@ -1,5 +1,5 @@
 {
-  "name": "portfolio",
+  "name": "@mdariel663/Portfolio",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -9,9 +9,15 @@
     "preview": "astro preview",
     "astro": "astro"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "dependencies": {
     "@astrojs/tailwind": "^5.1.0",
     "astro": "^4.5.3",
     "tailwindcss": "^3.4.1"
-  }
+  },
+  "keywords": ["portfolio"],
+  "license": "MIT"
+
 }
