@@ -1,6 +1,6 @@
 
 # Captura de Pantalla
-![screensjot](https://portafolio-sigma-virid.vercel.app/)
+![screenshots](./Screenshot.png)
 
 # Astro Starter Kit: Basics
 ```sh
