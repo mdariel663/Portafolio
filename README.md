@@ -1,5 +1,8 @@
-# Astro Starter Kit: Basics
 
+# Captura de Pantalla
+![screensjot](https://portafolio-sigma-virid.vercel.app/)
+
+# Astro Starter Kit: Basics
 ```sh
 npm create astro@latest -- --template basics
 ```
