@@ -1,0 +1,113 @@
+---
+import projects from './data/projects.json'
+import Carousel from '../components/common/Carousel.astro'
+import CarouselItem from '../components/common/CarouselItem.astro'
+---
+
+<section id="proyects" class="container mx-auto py-16 px-4 md:px-0">
+	<h2 class="text-center text-4xl font-bold mb-8">Proyectos</h2>
+
+	<style>
+		.project-image {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			border-radius: 0.5rem;
+			transition: transform 0.3s ease;
+		}
+
+		.project-image:hover {
+			transform: scale(1.05);
+		}
+
+		.aspect-ratio {
+			position: relative;
+			width: 100%;
+			padding-top: 56.25%;
+			overflow: hidden;
+		}
+
+		.aspect-ratio img,
+		.aspect-ratio .project-placeholder {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.project-placeholder {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: #e0e0e0;
+			color: #757575;
+		}
+
+		.project-title {
+			font-size: 1.25rem;
+			font-weight: 600;
+			color: #333;
+			margin-top: 0.5rem;
+		}
+
+		.project-description {
+			font-size: 1rem;
+			color: #666;
+			margin-top: 0.25rem;
+		}
+
+		.project-link {
+			margin-top: 1rem;
+			color: #1d4ed8;
+			transition: color 0.3s ease;
+		}
+
+		.project-link:hover {
+			color: #1e3a8a;
+		}
+	</style>
+
+	<Carousel>
+		{
+			projects.map((project) => (
+				<CarouselItem
+					title={project.title}
+					imageUrl={project['imageUrl']}
+					description={project.description}
+					url={project.url}
+				/>
+			))
+		}
+	</Carousel>
+</section>
+
+<script>
+	//  Reference: https://midu.dev/lazy-loading-imagenes-html/
+	//Cargar imagenes cuando no sea disponible el lazy loading en el navegador
+
+	;(() => {
+		// miramos si tiene soporte a lazy loading nativo
+		const hasNativeLazyLoadSupport = 'loading' in HTMLImageElement.prototype
+		if (hasNativeLazyLoadSupport) {
+			const lazyEls = document.querySelectorAll('[loading=lazy]')
+			// pasamos el data-src a src y dejamos que el navegador haga el resto
+			lazyEls.forEach((lazyEl) => {
+				const src = lazyEl.getAttribute('data-src')
+				lazyEl.setAttribute('src', src)
+			})
+		} else {
+			const script = document.createElement('script')
+			script.async = true
+			script.src = '/public/js/vanilla-lazyload.min.js'
+
+			// esta configuración es necesaria por la librería vanilla-lazyload
+			// le indicamos los elementos a los que queremos hacer la carga diferida
+			window['lazyLoadOptions'] = {
+				elements_selector: '[loading=lazy]',
+			}
+			document.body.appendChild(script)
+		}
+	})()
+</script>

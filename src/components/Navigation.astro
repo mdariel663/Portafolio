@@ -2,10 +2,9 @@
 const navItems = [
 	{ href: '#about', label: 'Sobre Mí' },
 	{ href: '#skills', label: 'Habilidades' },
-
+	{ href: '#proyect', label: 'Proyectos' },
 	{ href: '#contact', label: 'Contacto' },
 ]
-//{ href: "#proyect", label: "Proyectos" },
 ---
 
 <meta
@@ -45,16 +44,18 @@ const navItems = [
 		position: fixed;
 		top: 0;
 		right: 0;
-		height: 100%;
-		width: 70%; /* Ajusta el ancho del menú */
+		height: auto;
+		width: auto; /* Ajusta el ancho del menú */
 		max-width: 300px;
 		background-color: white; /* Fondo blanco para el menú */
-		box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3); /* Sombra a la izquierda */
+		/*box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3); /* Sombra a la izquierda */
 		transform: translateX(100%); /* Oculto por defecto */
 		transition: transform 0.3s ease;
 		z-index: 50; /* Asegúrate de que esté delante del fondo */
 		padding: 1rem; /* Espacio interior */
 		border-radius: 16px; /* Bordes redondeados */
+		border-radius: 16px; /* Bordes redondeados */
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra */
 	}
 
 	#mobile-menu-container.open {
@@ -68,11 +69,9 @@ const navItems = [
 
 	/* Estilo para la tarjeta que agrupa los enlaces */
 	.card {
-		background-color: #f9f9f9; /* Color de fondo de la tarjeta */
-		border-radius: 16px; /* Bordes redondeados */
-		padding: 1rem; /* Espaciado interior */
-		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra */
-		margin-top: 2rem; /* Espacio superior */
+		background-color: #ffff; /* Color de fondo de la tarjeta */
+		padding: 0.5rem; /* Espaciado interior */
+		margin-top: 0.5rem; /* Espacio superior */
 	}
 
 	/* Estilo para el botón de cerrar */
@@ -109,7 +108,7 @@ const navItems = [
 			<a href="#" aria-label="Ir a la página principal">
 				<img
 					src="https://avatars.githubusercontent.com/u/168371923?v=4"
-					alt="Foto de Mario Dariel Sires Martinez"
+					alt="Foto"
 					class="w-10 h-10 rounded-full transition-transform duration-300 hover:scale-110"
 				/>
 			</a>
@@ -119,7 +118,11 @@ const navItems = [
 					class="focus:outline-none focus:ring-2 focus:ring-purple-600"
 					aria-label="Abrir menú de navegación"
 				>
-					<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+					<svg
+						class="w-8 h-8"
+						fill="currentColor"
+						viewBox="0 0 20 20"
+					>
 						<path
 							d="M3 6h14a1 1 0 110 2H3a1 1 0 110-2zm0 5h14a1 1 0 110 2H3a1 1 0 110-2zm0 5h14a1 1 0 110 2H3a1 1 0 110-2z"
 						></path>
@@ -129,7 +132,7 @@ const navItems = [
 			<ul id="nav-links" class="hidden md:flex space-x-8">
 				{
 					navItems.map((item) => (
-						<li key={item.href}>
+						<li value={item.href}>
 							<a
 								href={item.href}
 								class="text-gray-600 hover:text-purple-600 transition-colors duration-300 relative hover-underline-animation"
@@ -149,14 +152,14 @@ const navItems = [
 
 	<!-- Contenedor de la tarjeta del menú móvil -->
 	<div id="mobile-menu-container" class="flex flex-col">
+		<button class="close-button" aria-label="Cerrar menú" id="close-menu">
+			&times;
+		</button>
 		<div class="card">
-			<button class="close-button" aria-label="Cerrar menú" id="close-menu">
-				&times; <!-- Símbolo de cerrar -->
-			</button>
 			<ul id="mobile-menu" class="flex flex-col space-y-4">
 				{
 					navItems.map((item) => (
-						<li key={item.href}>
+						<li value={item.href}>
 							<a
 								href={item.href}
 								class="mobile-nav-link"
