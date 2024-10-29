@@ -1,0 +1,107 @@
+---
+// CarouselItem.astro: componente para cada proyecto dentro del carrusel.
+const { title, imageUrl, description, url } = Astro.props
+---
+
+<div class="carousel-item bg-white shadow-lg rounded-lg p-6 project-card">
+	<div class="aspect-ratio">
+		{
+			imageUrl ? (
+				<img
+					src={imageUrl}
+					alt={title}
+					class="project-image"
+					loading="lazy"
+					onerror="this.style.display='none'"
+				/>
+			) : (
+				<div class="project-placeholder">
+					Oops! Foto no encontrada. 😅
+				</div>
+			)
+		}
+	</div>
+	<h3 class="project-title">{title}</h3>
+	<p class="project-description">{description}</p>
+	<a
+		href={url}
+		target="_blank"
+		rel="noopener noreferrer"
+		class="project-link"
+	>
+		View on GitHub
+	</a>
+</div>
+
+<style>
+	.carousel-item {
+		flex: 0 0 auto;
+		margin-right: 1rem;
+		scroll-snap-align: start;
+		transition: transform 0.3s ease;
+	}
+
+	.carousel-item:hover {
+		transform: scale(1.05);
+	}
+
+	.project-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 0.5rem;
+		transition: transform 0.3s ease;
+	}
+
+	.project-image:hover {
+		transform: scale(1.05);
+	}
+
+	.aspect-ratio {
+		position: relative;
+		width: 100%;
+		padding-top: 56.25%;
+		overflow: hidden;
+	}
+
+	.aspect-ratio img,
+	.aspect-ratio .project-placeholder {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.project-placeholder {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: #e0e0e0;
+		color: #757575;
+	}
+
+	.project-title {
+		font-size: 1.25rem;
+		font-weight: 600;
+		color: #333;
+		margin-top: 0.5rem;
+	}
+
+	.project-description {
+		font-size: 1rem;
+		color: #666;
+		margin-top: 0.25rem;
+	}
+
+	.project-link {
+		margin-top: 1rem;
+		color: #1d4ed8;
+		transition: color 0.3s ease;
+	}
+
+	.project-link:hover {
+		color: #1e3a8a;
+	}
+</style>

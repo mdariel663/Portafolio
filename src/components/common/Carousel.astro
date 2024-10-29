@@ -1,0 +1,79 @@
+---
+// Carousel.astro: componente principal que controla el carrusel y los botones de navegación.
+---
+
+<section class="container mx-auto py-16 px-4 md:px-0" style="overflow: hidden">
+	<div class="carousel-buttons">
+		<button id="scroll-left">‹</button>
+		<button id="scroll-right">›</button>
+	</div>
+
+	<div class="carousel-container" id="carousel" style="overflow: hidden">
+		<slot />
+	</div>
+</section>
+
+<script>
+	// Ajuste del ancho de cada item en el carrusel
+	function adjustProjectWidth() {
+		const carousel = document.getElementById('carousel')
+		const items = carousel.querySelectorAll('.carousel-item')
+		const containerWidth = carousel.clientWidth
+		const itemsToShow = Math.floor(containerWidth / 300)
+		const itemWidth = containerWidth / itemsToShow
+
+		items.forEach((item) => {
+			item.style.width = `${itemWidth - 16}px`
+		})
+	}
+
+	window.addEventListener('load', adjustProjectWidth)
+	window.addEventListener('resize', adjustProjectWidth)
+
+	// Funciones para los botones de scroll
+	const scrollLeft = () => {
+		document
+			.getElementById('carousel')
+			.scrollBy({ left: -300, behavior: 'smooth' })
+	}
+
+	const scrollRight = () => {
+		document
+			.getElementById('carousel')
+			.scrollBy({ left: 300, behavior: 'smooth' })
+	}
+
+	document.getElementById('scroll-left').addEventListener('click', scrollLeft)
+	document
+		.getElementById('scroll-right')
+		.addEventListener('click', scrollRight)
+</script>
+
+<style>
+	.carousel-container {
+		display: flex;
+		overflow-x: scroll;
+		scroll-snap-type: x mandatory;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.carousel-buttons {
+		display: flex;
+		justify-content: space-between;
+		position: relative;
+		top: -50px;
+	}
+
+	.carousel-buttons button {
+		background-color: white;
+		border: none;
+		padding: 0.5rem 1rem;
+		border-radius: 0.5rem;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+		cursor: pointer;
+	}
+
+	.carousel-buttons button:hover {
+		background-color: #f0f0f0;
+	}
+</style>
