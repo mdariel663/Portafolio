@@ -1,113 +1,138 @@
 ---
-import projects from './data/projects.json'
-import Carousel from '../components/common/Carousel.astro'
-import CarouselItem from '../components/common/CarouselItem.astro'
+import projects from './data/projects.json';
+import ProjectModal from './components/ProjectModal.astro';
+const openModal = (project) => {
+  const modalRoot = document.getElementById('modal-root');
+  modalRoot.innerHTML = `
+    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div class="bg-white p-6 rounded-lg w-11/12 md:w-1/2 relative">
+        <button class="absolute top-2 right-2 text-gray-600" onclick="closeModal()">✖</button>
+        <h2 class="text-3xl font-bold mb-4">${project.title}</h2>
+        <p class="mb-4">${project.description}</p>
+        <div class="grid grid-cols-1 gap-4">
+          ${project.images.map((image, index) => `<img src="${image}" alt="Capture ${index + 1}" class="w-full h-auto object-cover rounded-md" />`).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+};
+
+const closeModal = () => {
+  document.getElementById('modal-root').innerHTML = '';
+};
 ---
 
+<style>
+.project-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.project-image:hover {
+  transform: scale(1.05);
+}
+
+.project-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 150px;
+  background-color: #e0e0e0;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  color: #757575;
+}
+
+.project-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin-top: 0.5rem;
+}
+
+.project-description {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.project-link {
+  margin-top: 1rem;
+  color: #1d4ed8;
+  transition: color 0.3s ease;
+}
+
+.project-link:hover {
+  color: #1e3a8a;
+}
+
+.carousel-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carousel-item {
+  flex: 0 0 auto;
+  width: calc(100% / 3 - 1rem);
+  margin-right: 1rem;
+  scroll-snap-align: start;
+  transition: transform 0.3s ease;
+}
+
+.carousel-item:hover {
+  transform: scale(1.05);
+}
+</style>
+
 <section id="proyects" class="container mx-auto py-16 px-4 md:px-0">
-	<h2 class="text-center text-4xl font-bold mb-8">Proyectos</h2>
+  <h2 class="text-center text-4xl font-bold mb-8">Proyectos</h2>
 
-	<style>
-		.project-image {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			border-radius: 0.5rem;
-			transition: transform 0.3s ease;
-		}
-
-		.project-image:hover {
-			transform: scale(1.05);
-		}
-
-		.aspect-ratio {
-			position: relative;
-			width: 100%;
-			padding-top: 56.25%;
-			overflow: hidden;
-		}
-
-		.aspect-ratio img,
-		.aspect-ratio .project-placeholder {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-		}
-
-		.project-placeholder {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			background-color: #e0e0e0;
-			color: #757575;
-		}
-
-		.project-title {
-			font-size: 1.25rem;
-			font-weight: 600;
-			color: #333;
-			margin-top: 0.5rem;
-		}
-
-		.project-description {
-			font-size: 1rem;
-			color: #666;
-			margin-top: 0.25rem;
-		}
-
-		.project-link {
-			margin-top: 1rem;
-			color: #1d4ed8;
-			transition: color 0.3s ease;
-		}
-
-		.project-link:hover {
-			color: #1e3a8a;
-		}
-	</style>
-
-	<Carousel>
-		{
-			projects.map((project) => (
-				<CarouselItem
-					title={project.title}
-					imageUrl={project['imageUrl']}
-					description={project.description}
-					url={project.url}
-				/>
-			))
-		}
-	</Carousel>
+  <div class="carousel-container">
+    {projects.map((project) => (
+      <div
+        key={project.title}
+        class="carousel-item bg-white shadow-lg rounded-lg p-6 cursor-pointer"
+        onClick={() => openModal(project)}
+      >
+        {project.imageUrl ? (
+          <img src={project.imageUrl} alt={project.title} class="project-image" />
+        ) : (
+          <div class="project-placeholder">Oops! Foto no encontrada. 😅</div>
+        )}
+        <h3 class="project-title">{project.title}</h3>
+        <p class="project-description">{project.description}</p>
+      </div>
+    ))}
+  </div>
 </section>
 
+<div id="modal-root"></div>
+
 <script>
-	//  Reference: https://midu.dev/lazy-loading-imagenes-html/
-	//Cargar imagenes cuando no sea disponible el lazy loading en el navegador
+const openModal = (project) => {
+  const modalRoot = document.getElementById('modal-root');
+  modalRoot.innerHTML = `
+    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div class="bg-white p-6 rounded-lg w-11/12 md:w-1/2 relative">
+        <button class="absolute top-2 right-2 text-gray-600" onclick="closeModal()">✖</button>
+        <h2 class="text-3xl font-bold mb-4">${project.title}</h2>
+        <p class="mb-4">${project.description}</p>
+        <div class="grid grid-cols-1 gap-4">
+          ${project.images.map((image, index) => `<img src="${image}" alt="Capture ${index + 1}" class="w-full h-auto object-cover rounded-md" />`).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+};
 
-	;(() => {
-		// miramos si tiene soporte a lazy loading nativo
-		const hasNativeLazyLoadSupport = 'loading' in HTMLImageElement.prototype
-		if (hasNativeLazyLoadSupport) {
-			const lazyEls = document.querySelectorAll('[loading=lazy]')
-			// pasamos el data-src a src y dejamos que el navegador haga el resto
-			lazyEls.forEach((lazyEl) => {
-				const src = lazyEl.getAttribute('data-src')
-				lazyEl.setAttribute('src', src)
-			})
-		} else {
-			const script = document.createElement('script')
-			script.async = true
-			script.src = '/public/js/vanilla-lazyload.min.js'
-
-			// esta configuración es necesaria por la librería vanilla-lazyload
-			// le indicamos los elementos a los que queremos hacer la carga diferida
-			window['lazyLoadOptions'] = {
-				elements_selector: '[loading=lazy]',
-			}
-			document.body.appendChild(script)
-		}
-	})()
+const closeModal = () => {
+  document.getElementById('modal-root').innerHTML = '';
+};
 </script>

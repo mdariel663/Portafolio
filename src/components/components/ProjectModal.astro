@@ -1,0 +1,52 @@
+---
+const { project, onClose } = Astro.props
+---
+
+<style>
+	.modal-overlay {
+		position: fixed;
+		inset: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 50;
+	}
+
+	.modal {
+		background: white;
+		padding: 2rem;
+		border-radius: 0.5rem;
+		position: relative;
+		max-width: 90%;
+		width: 600px;
+	}
+
+	.modal-close {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		cursor: pointer;
+	}
+
+	.modal img {
+		width: 100%;
+		border-radius: 0.5rem;
+		margin-bottom: 1rem;
+	}
+</style>
+
+<div class="modal-overlay">
+	<div class="modal">
+		<button class="modal-close" onClick={onClose}>✖</button>
+		<h2 class="text-3xl font-bold mb-4">{project.title}</h2>
+		<p class="mb-4">{project.description}</p>
+		<div class="grid grid-cols-1 gap-4">
+			{
+				project.images?.map((image, index) => (
+					<img src={image} alt={`Capture ${index + 1}`} />
+				))
+			}
+		</div>
+	</div>
+</div>
