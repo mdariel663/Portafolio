@@ -1,138 +1,108 @@
 ---
-import projects from './data/projects.json';
-import ProjectModal from './components/ProjectModal.astro';
-const openModal = (project) => {
-  const modalRoot = document.getElementById('modal-root');
-  modalRoot.innerHTML = `
-    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div class="bg-white p-6 rounded-lg w-11/12 md:w-1/2 relative">
-        <button class="absolute top-2 right-2 text-gray-600" onclick="closeModal()">✖</button>
-        <h2 class="text-3xl font-bold mb-4">${project.title}</h2>
-        <p class="mb-4">${project.description}</p>
-        <div class="grid grid-cols-1 gap-4">
-          ${project.images.map((image, index) => `<img src="${image}" alt="Capture ${index + 1}" class="w-full h-auto object-cover rounded-md" />`).join('')}
-        </div>
-      </div>
-    </div>
-  `;
-};
-
-const closeModal = () => {
-  document.getElementById('modal-root').innerHTML = '';
-};
+// Importamos proyectos
+import projects from './data/projects.json'
 ---
 
-<style>
-.project-image {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-  transition: transform 0.3s ease;
-}
+<script is:inline>
+	// Código JS que se ejecuta en el cliente
+	const openModal = (project) => {
+		const modalOverlay = document.createElement('div')
+		modalOverlay.classList.add(
+			'fixed',
+			'inset-0',
+			'flex',
+			'items-center',
+			'justify-center',
+			'bg-black',
+			'bg-opacity-50',
+			'z-50',
+		)
 
-.project-image:hover {
-  transform: scale(1.05);
-}
+		const modalContent = document.createElement('div')
+		modalContent.classList.add(
+			'bg-white',
+			'p-6',
+			'rounded-lg',
+			'w-11/12',
+			'md:w-1/2',
+			'relative',
+		)
 
-.project-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 150px;
-  background-color: #e0e0e0;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-  color: #757575;
-}
+		const closeButton = document.createElement('button')
+		closeButton.classList.add('absolute', 'top-2', 'right-2', 'text-gray-600')
+		closeButton.textContent = '✖'
+		closeButton.onclick = closeModal
 
-.project-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #333;
-  margin-top: 0.5rem;
-}
+		const projectTitle = document.createElement('h2')
+		projectTitle.classList.add('text-3xl', 'font-bold', 'mb-4')
+		projectTitle.textContent = project.title
 
-.project-description {
-  font-size: 1rem;
-  color: #666;
-  margin-top: 0.25rem;
-}
+		const projectDescription = document.createElement('p')
+		projectDescription.classList.add('mb-4')
+		projectDescription.textContent = project.description
 
-.project-link {
-  margin-top: 1rem;
-  color: #1d4ed8;
-  transition: color 0.3s ease;
-}
+		const imagesContainer = document.createElement('div')
+		imagesContainer.classList.add('grid', 'grid-cols-1', 'gap-4')
 
-.project-link:hover {
-  color: #1e3a8a;
-}
+		project.images.forEach((image, index) => {
+			const imgElement = document.createElement('img')
+			imgElement.src = image
+			imgElement.alt = `Capture ${index + 1}`
+			imgElement.classList.add('w-full', 'h-auto', 'object-cover', 'rounded-md')
+			imagesContainer.appendChild(imgElement)
+		})
 
-.carousel-container {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
+		modalContent.appendChild(closeButton)
+		modalContent.appendChild(projectTitle)
+		modalContent.appendChild(projectDescription)
+		modalContent.appendChild(imagesContainer)
+		modalOverlay.appendChild(modalContent)
 
-.carousel-item {
-  flex: 0 0 auto;
-  width: calc(100% / 3 - 1rem);
-  margin-right: 1rem;
-  scroll-snap-align: start;
-  transition: transform 0.3s ease;
-}
+		document.getElementById('modal-root').appendChild(modalOverlay)
+	}
 
-.carousel-item:hover {
-  transform: scale(1.05);
-}
-</style>
-
-<section id="proyects" class="container mx-auto py-16 px-4 md:px-0">
-  <h2 class="text-center text-4xl font-bold mb-8">Proyectos</h2>
-
-  <div class="carousel-container">
-    {projects.map((project) => (
-      <div
-        key={project.title}
-        class="carousel-item bg-white shadow-lg rounded-lg p-6 cursor-pointer"
-        onClick={() => openModal(project)}
-      >
-        {project.imageUrl ? (
-          <img src={project.imageUrl} alt={project.title} class="project-image" />
-        ) : (
-          <div class="project-placeholder">Oops! Foto no encontrada. 😅</div>
-        )}
-        <h3 class="project-title">{project.title}</h3>
-        <p class="project-description">{project.description}</p>
-      </div>
-    ))}
-  </div>
-</section>
-
-<div id="modal-root"></div>
-
-<script>
-const openModal = (project) => {
-  const modalRoot = document.getElementById('modal-root');
-  modalRoot.innerHTML = `
-    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div class="bg-white p-6 rounded-lg w-11/12 md:w-1/2 relative">
-        <button class="absolute top-2 right-2 text-gray-600" onclick="closeModal()">✖</button>
-        <h2 class="text-3xl font-bold mb-4">${project.title}</h2>
-        <p class="mb-4">${project.description}</p>
-        <div class="grid grid-cols-1 gap-4">
-          ${project.images.map((image, index) => `<img src="${image}" alt="Capture ${index + 1}" class="w-full h-auto object-cover rounded-md" />`).join('')}
-        </div>
-      </div>
-    </div>
-  `;
-};
-
-const closeModal = () => {
-  document.getElementById('modal-root').innerHTML = '';
-};
+	const closeModal = () => {
+		const modalRoot = document.getElementById('modal-root')
+		if (modalRoot) {
+			modalRoot.innerHTML = ''
+		}
+	}
 </script>
+
+<div>
+	<section id="proyectos" class="container mx-auto py-16 px-4 md:px-0">
+		<h2 class="text-center text-4xl font-bold mb-8">Proyectos</h2>
+
+		<div class="carousel-container grid grid-cols-1 md:grid-cols-3 gap-6">
+			{
+				projects.map((project) => (
+					<div
+						key={project.title}
+						class="carousel-item bg-white shadow-lg rounded-lg p-6 cursor-pointer transition-transform transform hover:scale-105"
+						onClick={() => openModal(project)}
+					>
+						{project.imageUrl ? (
+							<img
+								src={project.imageUrl}
+								alt={project.title}
+								class="project-image w-full h-auto object-cover aspect-w-16 aspect-h-9 rounded-md max-h-[70vh]"
+							/>
+						) : (
+							<div class="project-placeholder text-center text-gray-500 py-10">
+								Oops! Foto no encontrada. 😅
+							</div>
+						)}
+						<h3 class="project-title text-xl font-semibold mt-4">
+							{project.title}
+						</h3>
+						<p class="project-description text-gray-600">
+							{project.description}
+						</p>
+					</div>
+				))
+			}
+		</div>
+	</section>
+
+	<div id="modal-root"></div>
+</div>

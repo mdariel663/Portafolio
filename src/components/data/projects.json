@@ -1,3 +1,8 @@
 [
-  { "title": "Cairo Taxis | Desarrollo", "description": "Es un software de mapas y geolocalización diseñado para optimizar el servicio de taxis y transporte privado. Ofrece funciones de navegación y rastreo en tiempo real para conductores y pasajeros, permitiendo a las empresas de transporte gestionar sus flotas de forma eficiente. Los taxistas pueden encontrar rutas óptimas, evitar el tráfico, y recibir notificaciones sobre posibles clientes cercanos. La Nave también facilita la planificación y el monitoreo de rutas para mejorar la experiencia del usuario y reducir el tiempo de espera.", "url": ""}
+  { "title": "Cairo Taxis | Desarrollo", 
+  "description": "Es un software de mapas y geolocalización diseñado para optimizar el servicio de taxis y transporte privado. Ofrece funciones de navegación y rastreo en tiempo real para conductores y pasajeros."
+  ,
+  "imageUrl": "https://raw.githubusercontent.com/mdariel663/Portafolio/main/public/images/screenshots/cairos/cairos.jpg",
+  "url": ""
+}
 ]
